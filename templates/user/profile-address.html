@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+</head>
+
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'home' %}" rel="nofollow">Home</a>
+                    <span></span> Pages
+                    <span></span> Account
+                </div>
+            </div>
+        </div>
+        <section class="pt-50 pb-150">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-11 m-auto">
+
+                        <div class="row">
+                            <div class="col-md-3"  >
+                                <div class="dashboard-menu">
+                                    <ul class="nav flex-column" role="tablist">
+
+                                        <li class="nav-item">
+                                            <a class="nav-link " id="dashboard-tab"  href="{% url 'profile' user.id %}" ><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="profile"  href="{% url 'profile_view' user.id %}"  ><i class="fi-rs-user mr-10"></i>My profile</a>
+                                        </li>
+
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link" id="editprofile" href="{% url 'profile_edit' user.id %}" ><i class="fas fa-pen mr-10"></i>Edit profile</a>-->
+<!--                                        </li>-->
+
+                                         <li class="nav-item">
+                                            <a class="nav-link active" id="address-tab"  href="{% url 'profile_address' user.id %}" ><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="orders-tab"  href="{% url 'profile_orders'  %}" ><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="wallet"  href="{% url 'my_wallet' %}" ><i class="material-symbols-outlined" style="margin-right:11px;">account_balance_wallet</i>Wallet</a>
+                                        </li>
+
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="coupon"  href="{% url 'my_coupons' %}" ><i class="fa-solid fa-tag mr-10"></i>Coupons</a>
+                                        </li>
+
+
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9"  >
+                                <div class="tab-content dashboard-content">
+<!--------------------------------------------------------Address--------------------------------------------------------------------------------------------------->
+
+                                  <br>
+                                    <div class="tab-pane fade active show" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                        <div class="row">
+                                            <p>
+                                                <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                   Add Address
+                                                  </a>
+                                            </p>
+                                                <div class="collapse" id="collapseExample">
+                                                    <div class="card-body">
+                                                        <form method="post" >
+                                                            {% csrf_token %}
+                                                            {% if messages %}
+                                                                {% for msg in messages %}
+                                                                    {% if msg.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                                                                        <div class="messages">
+                                                                            <div style="color: #cc0000;">
+                                                                                {{ msg }}
+                                                                            </div>
+                                                                        </div>
+                                                                    {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                                        <div class="messages">
+                                                                            <div style="color: #cc0000;">
+                                                                                {{ msg }}
+                                                                            </div>
+                                                                        </div>
+                                                                    {% elif msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                                                        <div class="messages">
+                                                                            <div style="color: #00cc00;">
+                                                                                {{ msg }}
+                                                                            </div>
+                                                                        </div>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                            <br>
+
+                                                            <div class="row">
+                                                                <div class="form-group col-md-4">
+                                                                    <label>First Name <span class="required">*</span></label>
+                                                                    <input   class="form-control square" name="first_name" type="text">
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Last Name <span class="required">*</span></label>
+                                                                    <input class="form-control square" name="last_name" type="text">
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Email<span class="required">*</span></label>
+                                                                    <input   class="form-control square" name="email" type="email">
+                                                                </div>
+
+                                                                <div class="form-group col-md-6">
+                                                                    <label>House Name <span class="required">*</span></label>
+                                                                    <input  class="form-control square" name="house_name" type="text">
+                                                                </div>
+
+                                                                <div class="form-group col-md-6">
+                                                                    <label>Mobile number <span class="required">*</span></label>
+                                                                    <input  class="form-control square" name="phone" type="text">
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Locality <span class="required">*</span></label>
+                                                                    <input  class="form-control square" name="locality" type="text">
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    <label>City / District <span class="required">*</span></label>
+                                                                    <input  class="form-control square" name="city" type="text">
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    <label>State<span class="required">*</span></label>
+                                                                    <input class="form-control square" name="state" type="text">
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Landmark<span class="required">*</span></label>
+                                                                    <input  class="form-control square" name="landmark" type="text">
+                                                                </div>
+
+
+                                                                <div class="form-group col-md-4">
+                                                                    <label>Pin code <span class="required">*</span></label>
+                                                                    <input  class="form-control square" name="pin" type="text">
+                                                                </div>
+
+
+                                                                <div class="col-md-12">
+                                                                    <button type="submit" class="btn btn-fill-out submit"  value="Submit">Save</button>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                     </div>
+                                                </div>
+
+
+
+                                            {% for i in address %}
+                                                <div class="col-lg-6" style="margin-top: 2rem;">
+                                                    <div class="card mb-3 mb-lg-0">
+                                                        <div class="card-header d-flex justify-content-between">
+                                                            <h5 class="mb-0">Address {{forloop.counter}}{% if i.is_default %} (default){% endif %}</h5>
+                                                            <div>
+                                                                <a href="{% url 'profile_edit_address' uid=request.user.id address_id=i.id %}" class="btn-small"><i class="fas fa-pen mr-10"></i></a>
+                                                                <a href="{% url 'delete_address' uid=request.user.id address_id=i.id %}" class="btn-small"><i class="fi-rs-trash"></i></a>
+                                                                {% if not i.is_default %}
+                                                                    <a href="{% url 'make_default_address' uid=request.user.id address_id=i.id %}">make default</a>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <address>
+                                                                {{ i.first_name }} {{ i.last_name }}<br>
+                                                                {{ i.phone }}<br>
+                                                                {{ i.house_name }}, {{ i.locality }}, {{ i.city }} <br>
+                                                                {{ i.pincode }}
+                                                            </address>
+                                                            <p>{{ i.state }}</p>
+                                                            <!-- Additional address details can be added here -->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+<!----------------------------------------------------------------------------------------------------------------------------------------------->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+<script>
+document.getElementById('edit-photo-link').addEventListener('click', function() {
+    document.getElementById('file-input').click();
+});
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+{% endblock %}

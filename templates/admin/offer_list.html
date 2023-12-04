@@ -1,0 +1,160 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        .btn.page.active {
+            background-color: #088178;
+            color: #fff;
+        }
+
+        .btn.page {
+            background-color: #fff; /* Set background color to white for non-active pages */
+            color: #28a745; /* Set text color to green */
+            border-color: #28a745; /* Set border color to green */
+        }
+    </style>
+</head>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Offer List</h2>
+
+                </div>
+                <div>
+                    <a href="{% url 'add_offers' %}" class="btn btn-primary btn-sm rounded">Add Offer</a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col col-check flex-grow-0">
+                        </div>
+
+                        <div class="col-lg-4 col-md-6 d-flex align-items-center">
+                            <form method="GET" action="{% url 'offer_list' %}">
+                                <div class="d-flex">
+                                    <input type="text" placeholder="Search..." class="form-control" name="search">
+                                    <button type="submit" class="btn btn-primary ms-2" style="padding:8px; background-color:#536764; color:white;">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </header>
+
+
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Type</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Discount type</th>
+                                    <th scope="col">Discount value</th>
+                                    <th scope="col">Valid from</th>
+                                    <th scope="col">Valid to</th>
+                                    <th scope="col" > Action </th>
+                                    <th scope="col" class="text-end"> Edit </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for offer in offers %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td><b>{{offer.name}}</b></td>
+                                    <td>
+                                        {% if offer.category %}
+                                            {{ offer.discount_on}}
+                                        {% endif %}
+                                        {% if offer.product %}
+                                            {{ offer.discount_on }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if offer.category %}
+                                            {{ offer.category.category_name }}
+                                        {% else %}
+                                            {{ offer.product.product_name }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{offer.discount_type }}</td>
+
+                                    <td>
+                                        {% if offer.discount_type == 'amount' %}
+                                            ₹{{ offer.discount_value }}
+                                        {% elif offer.discount_type == 'percentage' %}
+                                            {{ offer.discount_value }}%
+                                        {% endif %}
+                                    </td>
+
+                                    <td>{{offer.valid_from}}</td>
+                                    <td>{{offer.valid_to}}</td>
+
+                                    <td>
+                                        {% if not offer.is_unlisted %}
+                                                <form method="post" action="{% url 'unlist' offer.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="coupon_id" value="{{ offer.id }}">
+                                                    <button type="submit" class="btn btn-sm font-sm  rounded" style="color: #f44336;font-size:16px;">
+                                                        <i class="material-icons md-restore"  style="font-size:18px;"></i> Unlist
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <form method="post" action="{% url 'List' offer.id %}" class="d-inline">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="coupon_id" value="{{ offer.id }}">
+                                                    <button type="submit" class="btn btn-sm font-sm "  style="color: green;font-size:16px;" >
+                                                        <i class="material-icons md-delete_forever" style="font-size:18px;"></i> list
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                    </td>
+                                    <td>
+                                        <a class="" href="{% url 'edit_offers' offer.id %}" style="color: #0050fc;font-size:16px;">
+                                            <i class="bx bx-edit-alt me-1"></i> Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+<!--                     <div class="mx-auto">-->
+<!--                            {% if orders.paginator.num_pages > 1 %}-->
+<!--                            <hr>-->
+<!--                            <div class="text-center">-->
+<!--                                {% for pg in orders.paginator.page_range %}-->
+<!--                                <a href="?page={{pg}}" class="btn btn-sm page {% if orders.number == pg %} active {% endif %}">{{pg}}</a>-->
+<!--                                {% endfor %}-->
+<!--                            </div>-->
+<!--                            {% endif %}-->
+<!--                        </div>-->
+<!--                            <br>-->
+
+                </div>
+
+
+
+            </div> <!-- card end// -->
+        </section>
+
+
+
+
+
+
+
+
+{% endblock %}

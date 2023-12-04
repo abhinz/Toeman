@@ -1,0 +1,135 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Edit Variants </h2>
+                    <p> edit variant</p>
+                </div>
+                <div>
+                    <input type="text" placeholder="Search Categories" class="form-control bg-white">
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            <form method="post" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% if messages %}
+                                                {% for msg in messages %}
+                                                    {% if msg.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                                                        <div class="messages">
+                                                            <div style="color: #cc0000;">
+                                                                {{ msg }}
+                                                            </div>
+                                                        </div>
+                                                    {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                        <div class="messages">
+                                                            <div style="color: #cc0000;">
+                                                                {{ msg }}
+                                                            </div>
+                                                        </div>
+                                                    {% elif msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                                        <div class="messages">
+                                                            <div style="color: #00cc00;">
+                                                                {{ msg }}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                            <br>
+
+
+                                <div class="mb-4">
+                                    <label for="size" class="form-label">Size</label>
+                                    <select class="form-select" id="size" name="size">
+                                        {% for size_value, size_label in choices %}
+                                            {% if size_value == selected_size %}
+                                                <option value="{{ size_value }}" selected>{{ size_label }}</option>
+                                            {% else %}
+                                                <option value="{{ size_value }}">{{ size_label }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+
+                                <div class="mb-4">
+                                    <label for="quantity" class="form-label">Quantity</label>
+                                    <input type="text" value="{{variant.quantity}}" class="form-control" id="quantity" name="quantity" />
+                                </div>
+
+                                <div class="d-grid">
+                                    <button class="btn btn-primary">Edit variant</button>
+                                </div>
+                            </form>
+
+
+
+
+                                </div>
+                                    <div class="col-md-9">
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+
+                                                        <th>No.</th>
+                                                        <th>Size</th>
+                                                        <th>Quantity</th>
+                                                        <th>Status</th>
+                                                        <th>Action</th>
+                                                        <th >Edit</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for var in variants %}
+                                                    <tr>
+                                                        <td>{{forloop.counter}}</td>
+
+                                                        <td><b>{{var.size}}</b></td>
+                                                        <td>{{var.quantity}}</td>
+
+                                                        <td>
+                                                           {% if not var.unlist %}
+                                                            <span class="badge rounded-pill alert-success">Active</span>
+                                                            {% else %}
+                                                            <span class="badge rounded-pill alert-danger">Disabled</span>
+                                                            {% endif %}
+                                                        </td>
+
+                                                        <td>
+                                                           {% if not var.unlist %}
+                                                            <form method="post" action="{% url 'unlist_variants' product.id var.id %}" class="d-inline">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="category_id" value="{{ cat.id }}">
+                                                                <button type="submit" class="dropdown-item text-danger">Unlist</button>
+                                                            </form>
+                                                            {% else %}
+                                                                <form method="post" action="{% url 'unlist_variants' product.id var.id %}" class="d-inline">
+                                                                    {% csrf_token %}
+                                                                    <input type="hidden" name="category_id" value="{{ cat.id }}">
+                                                                    <button type="submit" class="dropdown-item text-success">List</button>
+                                                                </form>
+                                                            {% endif %}
+                                                        </td>
+                                                        <td>
+                                                            <a  href="{% url 'edit_variants' product.id var.id %}">Edit </a>
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div> <!-- .col// -->
+                                    </div> <!-- .row // -->
+                                    </div> <!-- card body .// -->
+                                </div> <!-- card .// -->
+                            </section> <!-- content-main end// -->
+
+                    {% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+<br>
+    <div class="row">
+      <div class="col-lg-12">
+          <div class="ml-5">
+            <h2 class="ml-3 mt-3" >Add Offers</h2>
+              <a class="ml-3" href="{% url 'offer_list' %}">Go back</a>
+          </div>
+      </div>
+    </div>
+
+
+
+    <form method="post" action="{% url 'add_offers' %}">
+    {% csrf_token %}
+    <div class="row m-5 p-3" style="background-color:white;">
+            {% if messages %}
+                {% for msg in messages %}
+                    {% if msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class="messages">
+                            <div style="color: #cc0000;">
+                                {{ msg }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        <br><br>
+
+
+        <div class="col-lg-6 primary">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder=""  />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="discount_on">Discount On</label>
+                <select class="form-select" id="discount_on" name="discount_on">
+                    <option value="product">Product</option>
+                    <option value="category">Category</option>
+                </select>
+            </div>
+
+            <div class="mb-3" id="product_dropdown">
+                <label class="form-label" for="product">Product</label>
+                <select class="form-select" id="product" name="product">
+                    <option value="">Select a product</option>
+                    {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.product_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3" id="category_dropdown" style="display: none;">
+                <label class="form-label" for="category">Category</label>
+                <select class="form-select" id="category" name="category">
+                    <option value="">Select a category</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}">{{ category.category_name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="discount">Discount Type</label>
+                <select class="form-select" id="discount" name="discount_type">
+                    <option value="">Select discount type</option>
+                    <option value="percentage">Percentage</option>
+                    <option value="amount">Amount</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="col-lg-6 ">
+            <div class="mb-3">
+                <label class="form-label" for="discount_value">Discount value</label>
+                <input type="text" class="form-control" id="discount_value" name="discount_value" placeholder=""  />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="valid_from">Valid From</label>
+                <input type="datetime-local" class="form-control" id="valid_from" name="valid_from"  />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="valid_to">Valid To</label>
+                <input type="datetime-local" class="form-control" id="valid_to" name="valid_to"  />
+            </div>
+            <br>
+            <button type="submit" class="btn btn-primary">Add Offer</button>
+        </div>
+    </div>
+</form>
+
+</div>
+
+
+
+<script>
+    document.getElementById('discount_on').addEventListener('change', function() {
+        var selectedOption = this.value;
+
+        if (selectedOption === 'product') {
+            document.getElementById('product_dropdown').style.display = 'block';
+            document.getElementById('category_dropdown').style.display = 'none';
+        } else if (selectedOption === 'category') {
+            document.getElementById('product_dropdown').style.display = 'none';
+            document.getElementById('category_dropdown').style.display = 'block';
+        }
+    });
+</script>
+
+
+
+
+{% endblock %}

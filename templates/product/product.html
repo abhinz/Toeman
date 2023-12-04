@@ -1,0 +1,605 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />    <style>
+        .product-image-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.product-image-slider figure {
+    margin: 0;
+}
+
+.product-image-slider img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+    .add-to-cart-form {
+        display: flex;
+        align-items: center; /* Align items vertically in the center */
+    }
+
+    .input-group {
+        display: flex;
+        margin-right: 10px; /* Adjust the margin between the input and button */
+    }
+
+
+    .button-add-to-cart {
+        background-color: #007bff; /* Change the background color to your preference */
+        color: #ffffff; /* Change the text color to your preference */
+        border: none;
+        padding: 8px 12px;
+        cursor: pointer;
+    }
+
+    .form-control {
+        width: 50px; /* Set the width of the input field */
+    }
+
+    .button-container {
+    display: flex;
+    align-items: center; /* Align items vertically in the center */
+}
+
+.button-container button,
+.button-container a {
+    margin-right: 10px; /* Adjust the spacing between the buttons/links */
+}
+
+/* hide radio button */
+
+.rate > input{
+    display: none;
+}
+
+.rate{
+    display: inline-block;
+    border: 0;
+}
+
+.rate > label{
+    float:right;
+}
+
+/* showing stars */
+
+.rate > label:before {
+    display: inline-block;
+    font-size: 1.1rem;
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900; 
+    content: "\f005";
+    margin: 0;
+    padding: 0.3rem 0.2rem; 
+    cursor: pointer;
+}
+
+/* click and hover */
+
+input:checked ~ label, label:hover ~ label{
+    color: #ffb503;
+}
+
+
+input:checked + label:hover,input:checked ~ label:hover,input:checked ~ label:hover ~label,
+label:hover ~ input:checked ~ label{
+    color:#cc9000;
+}
+
+.star-color{
+color:#cc9000;
+}
+
+.comment-form {
+    border-top:none !important;
+    padding-top: 5px !important;
+    }
+
+.rate input:checked + label {
+    color: #ffb503;
+}
+
+
+
+.size-box {
+    display: inline-block;
+    padding: 6px 14px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#first-radio-group input[type="radio"]:checked + label {
+    background-color: #046963;
+    color: white;
+}
+
+    </style>
+
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'home' %}" rel="nofollow">Home</a>
+                    <span></span> <a href="{% url 'product_list' %}" rel="nofollow"> {{product.category}}</a>
+                    <span></span> {{ product.product_name }}
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product-detail accordion-detail">
+                            <div class="row mb-50">
+                                <div class="col-md-1"></div>
+                                <div class="col-md-5 col-sm-12 col-xs-12 " style="width:30rem;">
+                                    <div class="detail-gallery ">
+                                        <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                        <!-- MAIN SLIDES -->
+<!--                                        style="width:450px;margin-left:100px; "-->
+
+                                        <div class="product-image-slider " style="background-color:transparent" >
+                                            <figure class="border-radius-10">
+                                                <img src="{{ product.product_image1.url }}" alt="product image" >
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="{{ product.product_image2.url }}" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="{{ product.product_image3.url }}" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="{{ product.product_image4.url }}" alt="product image">
+                                            </figure>
+                                            <figure class="border-radius-10">
+                                                <img src="{{ product.product_image5.url }}" alt="product image">
+                                            </figure>
+
+                                        </div>
+                                        <!-- THUMBNAILS -->
+                                        <div class="slider-nav-thumbnails pl-15 pr-15">
+                                            <div><img src="{{ product.product_image1.url }}" alt="product image"></div>
+                                            <div><img src="{{ product.product_image2.url }}" alt="product image"></div>
+                                            <div><img src="{{ product.product_image3.url }}" alt="product image"></div>
+                                            <div><img src="{{ product.product_image4.url }}" alt="product image"></div>
+                                            <div><img src="{{ product.product_image5.url }}" alt="product image"></div>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- End Gallery -->
+                                </div>
+                                <div class="col-md-6 col-sm-12 col-xs-12 ml-5">
+                                    <div class="detail-info">
+                                        <h2 class="title-detail">{{product.product_name}}</h2>
+                                        <div class="product-detail-rating">
+                                            <div class="pro-details-brand">
+                                                <span> Brands: <a href="shop-grid-right.html">{{product.brand_name}}</a></span>
+                                            </div>
+                                            <div class="product-rate-cover text-end">
+                                                <div class=" d-inline-block">
+                                                    {% if count != 0 %}
+                                                    <div class="rate">
+                                                        <i class="fa fa-star{% if average_rating < 1 %}-o {% endif %}  star-color" aria-hidden="true"></i>
+                                                        <i class="fa fa-star{% if average_rating < 2 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                        <i class="fa fa-star{% if average_rating < 3 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                        <i class="fa fa-star{% if average_rating < 4 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                        <i class="fa fa-star{% if average_rating < 5 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                <span class="font-small ml-5 text-muted"> ({{count}} reviews)</span>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix product-price-cover">
+                                            <div class="product-price primary-color float-left">
+                                                <ins><span class="text-brand">₹{{ product.price|default:"0"|floatformat:"0" }}</span></ins>
+                                                {% if has_offer %}
+                                                <ins><span class="old-price font-md ml-15 text-danger">₹{{product.old_price}}</span></ins>
+                                                <span class="save-price  font-md color3 ml-15 text-success ">{{percentage}}% Off</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="bt-1 border-color-1 mt-15 mb-15"></div>
+                                        <div class="short-desc mb-30">
+                                            <p>{{product.description}}</p>
+                                        </div>
+                                        <div class="product_sort_info font-xs mb-30">
+                                            <ul>
+                                                <li class="mb-10"><i class="fi-rs-crown mr-5"></i> 1 Year  Brand Warranty</li>
+                                                <li class="mb-10"><i class="fi-rs-refresh mr-5"></i> 30 Day Return Policy</li>
+                                                <li><i class="fi-rs-credit-card mr-5"></i> Cash on Delivery available</li>
+                                            </ul>
+                                        </div>
+                                        <div class="attr-detail attr-color mb-15">
+                                            <strong class="mr-10">Color</strong>
+                                            <ul class="list-filter color-filter">
+                                                {% if product.colors == 'Red' %}
+                                                    <li><a href="" data-color="Red"><span class="product-color-red"></span></a></li>
+                                                {% elif product.colors == 'Yellow' %}
+                                                    <li><a href="" data-color="Yellow"><span class="product-color-yellow"></span></a></li>
+                                                {% elif product.colors == 'White' %}
+                                                    <li class="active"><a href="#" data-color="White"><span class="product-color-white"></span></a></li>
+                                                {% elif product.colors == 'Orange' %}
+                                                    <li><a href="#" data-color="Orange"><span class="product-color-orange"></span></a></li>
+                                                {% elif product.colors == 'Cyan' %}
+                                                    <li><a href="#" data-color="Cyan"><span class="product-color-cyan"></span></a></li>
+                                                {% elif product.colors == 'Green' %}
+                                                    <li><a href="#" data-color="Green"><span class="product-color-green"></span></a></li>
+                                                {% elif product.colors == 'Purple' %}
+                                                    <li><a href="#" data-color="Purple"><span class="product-color-purple"></span></a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </div>
+
+
+
+
+
+                                {% if variant_sizes_count > 0 %}
+                                    <form method="post" action="{% url 'add_cart' product.id %}" class="add-to-cart-form">
+                                    {% csrf_token %}
+                                        <div class="form-group mb-3 col-xs-12 col-sm-6">
+
+
+                                            <ul id="first-radio-group" class="list-filter size-filter font-small">
+                                            {% for size_id in variant_sizes %}
+                                                <li>
+                                                    <input type="radio" id="{{ size_id }}" name="size_id" value="{{ size_id }}" {% if forloop.first %} checked {% endif %} style="display: none;">
+                                                    <label for="{{ size_id }}" class="size-box">
+                                                        {{ size_id }}
+                                                    </label>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+
+
+
+
+                                        <br>
+                                        <div class="detail-extralink">
+                                            <div class="product-extra-link2">
+                                                   <div class="input-group">
+                                                        <input type="number" id="qty" name="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                                                        <button type="submit" class="button button-add-to-cart">Add to cart</button>
+                                                       {% if in_wishlist %}
+                                                            <a aria-label="Add To Wishlist" style="background-color:#088178;" class="action-btn hover-up" href="{% url 'remove_from_wishlist' product.id %}"><i class="fi-rs-heart" style="color:white;"></i></a>
+                                                       {% else %}
+                                                            <a aria-label="Add To Wishlist" class="action-btn hover-up ml-5 p-1" href="{% url 'add_to_wishlist' product.id %}">
+                                                                <i class="fi-rs-heart"></i>
+                                                            </a>
+                                                       {% endif %}
+                                                    </div>
+                                            </div>
+                                        </div>
+                                      </div>
+                                    </form>
+                                {% else %}
+                                    <div class="input-group">
+                                        <button  class="button button-add-to-cart" style="color: #fff; background-color: #d6642a;">Coming Soon</button>
+                                    </div>
+                                {% endif %}
+
+<!------------------------------------------------------------------------------------------------------------------------------------->
+                                        <ul class="product-meta font-xs color-grey mt-50">
+                                            <li class="mb-5">SKU: <a href="#">FWM15VKT</a></li>
+                                            <li class="mb-5">category: <a href="#" rel="tag">{{product.category.category_name}}</a></li>
+
+                                            {% if variant_sizes_count < 1 %}
+                                            <li>Availability:<span class="in-stock text-success  ml-5"> Items Not  In Stock</span></li>
+                                            {% else %}
+                                            <li>Availability:<span class="in-stock text-success ml-5"> Items In Stock</span></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    <!-- Detail Info -->
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-lg-10 m-auto entry-main-content">
+
+                                    <h3 class="section-title style-1 mb-30">Additional info</h3>
+                                    <table class="font-md mb-30">
+                                        <tbody>
+
+                                            <tr class="stand-up">
+                                                <th>Material</th>
+                                                <td>
+                                                    <p>{{product.material}}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="folded-wo-wheels">
+                                                <th>Special features</th>
+                                                <td>
+                                                    <p>{{product.special_feature}}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="folded-w-wheels">
+                                                <th>Fit type</th>
+                                                <td>
+                                                    <p>{{product.fit_type}}</p>
+                                                </td>
+                                            </tr>
+                                            <tr class="door-pass-through">
+                                                <th>Shoe width</th>
+                                                <td>
+                                                    <p>{{product.shoe_width}}</p>
+                                                </td>
+                                            </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+
+
+
+                                    <div class="social-icons single-share">
+                                        <ul class="text-grey-5 d-inline-block">
+                                            <li><strong class="mr-10">Share this:</strong></li>
+                                            <li class="social-facebook"><a href="#"><img src="{% static  'assets/imgs/theme/icons/icon-facebook.svg'  %}" alt=""></a></li>
+                                            <li class="social-twitter"> <a href="#"><img src="{% static  'assets/imgs/theme/icons/icon-twitter.svg'  %}" alt=""></a></li>
+                                            <li class="social-instagram"><a href="#"><img src="{% static  'assets/imgs/theme/icons/icon-instagram.svg'  %}" alt=""></a></li>
+                                            <li class="social-linkedin"><a href="#"><img src="{% static  'assets/imgs/theme/icons/icon-pinterest.svg'  %}" alt=""></a></li>
+                                        </ul>
+                                    </div>
+                                    <h3 class="section-title style-1 mb-30 mt-30">Reviews ({{count}})</h3>
+                                    <!--Comments-->
+                                    <div class="comments-area style-2">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <h4 class="mb-30">Customer questions & answers</h4>
+                                                <div class="comment-list">
+
+                                                    {% for review, profile_image_url in review_with_images %}
+                                                    <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                            <div class="thumb text-center">
+                                                                <img src="{{  profile_image_url }}" alt="">
+<!--                                                                <img src="{% static  'assets/imgs/page/avatar-6.jpg ' %}" alt="">-->
+<!--                                                                <img src="{{ review.profile.profile_image}}" alt="">-->
+                                                                <h6><a href="#">{{ review.user.username}}</a></h6>
+                                                                <p class="font-xxs">Since 2023</p>
+                                                            </div>
+                                                            <div class="desc">
+                                                                <div class=" d-inline-block">
+                                                                   <span>
+                                                                    <i class="fa fa-star{% if review.rating < 1 %}-o {% endif %}  star-color" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star{% if review.rating < 2 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star{% if review.rating < 3 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star{% if review.rating < 4 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                                    <i class="fa fa-star{% if review.rating < 5 %}-o {% endif %} star-color" aria-hidden="true"></i>
+                                                                   </span>
+                                                                </div>
+                                                                <p>{{review.comment}}</p>
+                                                                <div class="d-flex justify-content-between">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <p class="font-xs mr-30">{{review.updated_at}}</p>
+<!--                                                                        <a href="#" class="text-brand btn-reply">Reply <i class="fi-rs-arrow-right"></i> </a>-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-lg-6">
+                                                {% if has_ordered and not existing_review %}
+                                                    <div class="comment-form">
+                                                    <h4 class="mb-15">Add a review</h4>
+                                                    <div class=" d-inline-block mb-30">
+                                                        <label>How do you rate product?</label>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12">
+                                                            <form method="post" class="form-contact comment_form" action="{% url 'add_review' product.id %}" id="">
+                                                                {% csrf_token %}
+                                                                    <div class="rate ">
+                                                                        <input type="radio" name="rating" id="rating5" value="5" /><label for="rating5" title="5"></label>
+                                                                        <input type="radio" name="rating" id="rating4" value="4" /><label for="rating4" title="4"></label>
+                                                                        <input type="radio" name="rating" id="rating3" value="3" /><label for="rating3" title="3"></label>
+                                                                        <input type="radio" name="rating" id="rating2" value="2" /><label for="rating2" title="2"></label>
+                                                                        <input type="radio" name="rating" id="rating1" value="1" /><label for="rating1" title="1"></label>
+                                                                    </div>
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="form-group">
+                                                                            <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <button type="submit" class="button button-contactForm">Submit
+                                                                        Review</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endif %}
+                                                {% if has_ordered and  existing_review %}
+                                                    <div class="comment-form">
+                                                        <span class="mb-15 h4 mr-5">Edit review </span><span><a href="{% url 'delete_review' my_review.id  %}" class="btn-small"><i class="fi-rs-trash"></i></a></span>
+
+                                                        <div class="row">
+                                                            <div class="col-lg-12 col-md-12">
+                                                                <form method="post" class="form-contact comment_form" action="{% url 'edit_review' my_review.id %}">
+                                                                    {% csrf_token %}
+                                                                  <div class="rate">
+                                                                        <input type="radio" name="rating" id="r5" value="5" {% if my_review.rating == 5 %} checked {% endif %}><label for="r5" title="5"></label>
+                                                                        <input type="radio" name="rating" id="r4" value="4" {% if my_review.rating == 4 %} checked {% endif %}><label for="r4" title="4"></label>
+                                                                        <input type="radio" name="rating" id="r3" value="3" {% if my_review.rating == 3 %} checked {% endif %}><label for="r3" title="3"></label>
+                                                                        <input type="radio" name="rating" id="r2" value="2" {% if my_review.rating == 2 %} checked {% endif %}><label for="r2" title="2"></label>
+                                                                        <input type="radio" name="rating" id="r1" value="1" {% if my_review.rating == 1 %} checked {% endif %}><label for="r1" title="1"></label>
+                                                                    </div>
+
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                <textarea class="form-control w-100" name="comment" cols="30" rows="9">{{ my_review.comment }}</textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <button type="submit" class="button button-contactForm">Edit Review</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<style>
+    $(document).ready(function() {
+    $('.size-item').on('click', function(e) {
+        e.preventDefault();
+        $('.size-item').removeClass('active');
+        $(this).addClass('active');
+    });
+});
+
+</style>
+
+<!--<script>-->
+<!--    const sizeItems = document.querySelectorAll('.size-filter .size-item');-->
+
+<!--    sizeItems.forEach(item => {-->
+<!--        item.addEventListener('click', function (event) {-->
+<!--            event.preventDefault();-->
+
+<!--            sizeItems.forEach(element => {-->
+<!--                element.classList.remove('active');-->
+<!--            });-->
+<!--            this.classList.add('active');-->
+
+<!--            const selectedSize = this.getAttribute('data-size');-->
+<!--            console.log('Selected size:', selectedSize);-->
+
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+
+<script>
+    const sizeRadios = document.querySelectorAll('input[name="size_id"]');
+
+    sizeRadios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.querySelectorAll('.size-box').forEach(function(label) {
+                label.classList.remove('selected-size');
+            });
+
+            if (radio.checked) {
+                const label = document.querySelector('label[for="' + radio.id + '"]');
+                label.classList.add('selected-size');
+            }
+        });
+    });
+</script>
+
+
+   {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--                                            <div class="col-lg-4">-->
+<!--                                                <h4 class="mb-30">Customer reviews</h4>-->
+<!--                                                <div class="d-flex mb-30">-->
+<!--                                                    <div class="product-rate d-inline-block mr-15">-->
+<!--                                                        <div class="product-rating" style="width:90%">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                    <h6>4.8 out of 5</h6>-->
+<!--                                                </div>-->
+<!--                                                <div class="progress">-->
+<!--                                                    <span>5 star</span>-->
+<!--                                                    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">50%</div>-->
+<!--                                                </div>-->
+<!--                                                <div class="progress">-->
+<!--                                                    <span>4 star</span>-->
+<!--                                                    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>-->
+<!--                                                </div>-->
+<!--                                                <div class="progress">-->
+<!--                                                    <span>3 star</span>-->
+<!--                                                    <div class="progress-bar" role="progressbar" style="width: 45%;" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">45%</div>-->
+<!--                                                </div>-->
+<!--                                                <div class="progress">-->
+<!--                                                    <span>2 star</span>-->
+<!--                                                    <div class="progress-bar" role="progressbar" style="width: 65%;" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65%</div>-->
+<!--                                                </div>-->
+<!--                                                <div class="progress mb-30">-->
+<!--                                                    <span>1 star</span>-->
+<!--                                                    <div class="progress-bar" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85%</div>-->
+<!--                                                </div>-->
+<!--                                                <a href="#" class="font-xs text-muted">How are ratings calculated?</a>-->
+<!--                                            </div>-->
+
+
+
+<!--  <input type="radio" name="rating" id="rating1" value="1" /><label for="rating1" title="1"></label>-->
+<!--                                                                        <input type="radio" name="rating" id="rating2" value="2" /><label for="rating2" title="2"></label>-->
+<!--                                                                        <input type="radio" name="rating" id="rating3" value="3" /><label for="rating3" title="3"></label>-->
+<!--                                                                        <input type="radio" name="rating" id="rating4" value="4" /><label for="rating4" title="4"></label>-->
+<!--                                                                         <input type="radio" name="rating" id="rating5" value="5" /><label for="rating5" title="5"></label>-->
+
+
+
+<!--                                        <strong class="mr-10">Size</strong>-->
+<!--                                               <select class="form-control" id="size_id" name="size_id" >-->
+<!--                                                    <option value="" selected>Select</option>-->
+<!--                                                    {% for size_id in variant_sizes %}-->
+<!--                                                        <option value="{{ size_id }}">{{ size_id }}</option>-->
+<!--                                                    {% endfor %}-->
+<!--                                                </select>-->
+<!--   <li><a href="#" class="size-item" data-size="{{ size_id }}">{{ size_id }}</a></li>-->

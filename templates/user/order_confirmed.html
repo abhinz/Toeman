@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    table td, table th {
+    border:none !important;
+    }
+
+    .bg{
+    background-color:#f7f7f7;
+    }
+    .dlist {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.dlist dt,
+.dlist dd {
+    flex: 0 0 48%;
+}
+
+</style>
+
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <center>
+                                <img src="{% static 'user/thanks-for-shopping.png' %}" style="width:35rem; margin-bottom:30px;">
+                                    </center>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <div class="row">
+                                <div class="col-lg-12" >
+                                    <div class="row">
+
+                                                <div class="col-lg-5 col-md-12 ">
+                                                    <div class="card p-4 bg">
+                                                        <h4 class="card-title text-center" style="color:#088178;">Order Details</h4>
+                                                        <br>
+                                                        <table class="table borderless-table text-center">
+                                                            {% for order in orders %}
+                                                            <tr>
+                                                                <th>Order Id</th>
+                                                                <td></td>
+                                                                <td>{{order.order_number}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Total amount</th>
+                                                                <td></td>
+                                                                <td>{{order.order_total |floatformat:2 }}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Type of payment</th>
+                                                                <td></td>
+                                                                {% for payment in payments %}
+                                                                <td>{{ payment.payment_method }}</td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                            <tr>
+                                                                <th>Status</th>
+                                                                <td></td>
+                                                                <td>{{order.status}}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2"></div>
+
+                                                <div class="col-lg-5 col-md-12 mt-md-0 mt-4">
+                                                    <div class="card p-5 bg">
+                                                        <h4 class="card-title text-center" style="color:#088178;">Address</h4>
+                                                        <br>
+                                                        {% for order in orders %}
+                                                        <address>{{order.address.first_name}} {{order.address.last_name}}<br> {{order.address.phone}}<br>
+                                                            {{order.address.house_name}},{{order.address.locality}},{{order.address.city}}
+                                                            <br>{{order.address.pincode}}</address>
+                                                        <p>{{order.address.state}}</p>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                             <div class="row">
+                                    <div class="col-lg-12">
+                                        <br>
+                                        <div class="card p-3 bg-light">
+                                        <table class="table table-bordered  ">
+                                        <thead>
+                                            <tr >
+                                                <th scope="col">Image</th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Size</th>
+                                                <th scope="col">Unit Price</th>
+                                                <th scope="col">Quantity</th>
+                                                <th scope="col">Tax</th>
+                                                <th scope="col" >Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for order_product in order_products %}
+                                            <tr class="">
+                                                 <td class=" "><img src="{{ order_product.product.product_image1.url }}" alt="{{ order_product.product.product_name }}" style="width:4rem;"></td>
+                                                  <td data-title="Name">{{ order_product.product.product_name|slice:":15" }} </td>
+                                                  <td data-title="Size">{{ order_product.size }} </td>
+                                                <td data-title="Unit Price">₹ {{order_product.product.price}}</td>
+                                                <td data-title="Quantity" > {{order_product.quantity}} </td>
+                                                <td data-title="Tax">₹ {{ order_product.tax }}</td>
+                                                <td data-title="Total" > ₹{{ order_product.stotal|floatformat:2 }} </td>
+                                                <td></td>
+                                                <td></td>
+
+                                            </tr>
+
+                                            {% endfor %}
+                                            <tr></tr>
+
+                                             {% for i in orders %}
+                                            <tr class="mt-4">
+                                                <td colspan="7">
+                                                    <article class="float-end">
+                                                        <dl class="dlist">
+<!--                                                            <dt><h4>Subtotal:</h4></dt>-->
+<!--                                                            <dd>₹ {{ i.order_total|floatformat:2  }}</dd>-->
+
+                                                            <dt><h4>Shipping cost:</h4></dt>
+                                                            <dd>0</dd>
+
+                                                            <dt><h4>Discount:</h4></dt>
+                                                            <dd>{{i.discount}}</dd>
+
+                                                            <dt><h4>Grand total:</h4></dt>
+                                                            <dd><b>₹ {{ i.order_total |floatformat:2 }}</b></dd>
+                                                        </dl>
+                                                    </article>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                        <br>
+                                        <a href="{% url 'home' %}" class="btn end">Back to Shop</a>
+                                    </div>
+                                </div>
+                        </div>
+
+
+{% endblock %}

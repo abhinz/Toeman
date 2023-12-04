@@ -1,0 +1,233 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <form method="post"  enctype="multipart/form-data">
+                    {% csrf_token %}
+
+
+                    <div class="content-header">
+
+                        <h2 class="content-title text-center">Edit Product</h2>
+
+                        <div>
+<!--                            <a href="{% url 'admin_products_list' %}" ><button class="btn btn-light rounded font-sm mr-5 text-body hover-up">View Products</button></a>-->
+                            <button class="btn btn-md rounded font-sm hover-up">Save</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    {% if messages %}
+                        {% for msg in messages %}
+                            {% if msg.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+                                <div class="messages">
+                                    <div style="color: #cc0000;">
+                                        {{ msg }}
+                                    </div>
+                                </div>
+                            {% elif msg.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                <div class="messages">
+                                    <div style="color: #cc0000;">
+                                        {{ msg }}
+                                    </div>
+                                </div>
+                            {% elif msg.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                <div class="messages">
+                                    <div style="color: #00cc00;">
+                                        {{ msg }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <br>
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <label for="product_title" class="form-label">Product title</label>
+                                <input type="text" value="{{product.product_name}}" class="form-control" id="product_title" name="product_name">
+                            </div>
+                            <div class="row gx-3">
+                                <div class="col-md-4  mb-3">
+                                    <label for="product_brand" class="form-label">Brand</label>
+                                    <input type="text" value="{{product.brand_name}}" class="form-control" id="product_brand" name="brand_name">
+                                </div>
+                                <div class="col-md-4  mb-3">
+                                    <label for="product_color" class="form-label">Original price</label>
+                                    <input type="text" value="{{product.old_price}}" class="form-control" id="product_color" name="old_price">
+                                </div>
+                                <div class="col-md-4  mb-3">
+                                    <label for="product_size" class="form-label">Offer price</label>
+                                    <input type="text" value="{{product.price}}" class="form-control" id="product_size" name="price">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div>
+                                <label class="form-label">Description</label>
+                                <textarea value="" class="form-control" rows="4" name="description">{{product.description}}</textarea>
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+
+
+                            <div>
+                                <label class="form-label">Images</label>
+<!---------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if product.product_image1  %}
+                                            <div>{{ product.product_image1.name|truncatechars:13 }}</div>
+                                            <img src="{{ product.product_image1.url }}" alt="Image 1" style="width:50px; height:50px">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="file" name="image1" style="margin-top:15px;">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if product.product_image2 %}
+                                            <div>{{ product.product_image2.name|truncatechars:13 }}</div>
+                                            <img src="{{ product.product_image2.url }}" alt="Image 2" style="width:50px; height:50px">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="file" name="image2" style="margin-top:15px;">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if product.product_image3 %}
+                                            <div>{{ product.product_image3.name|truncatechars:13 }}</div>
+                                            <img src="{{ product.product_image3.url }}" alt="Image 3" style="width:50px; height:50px">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="file" name="image3" style="margin-top:15px;">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if product.product_image4 %}
+                                            <div>{{ product.product_image4.name|truncatechars:13  }}</div>
+                                            <img src="{{ product.product_image4.url }}" alt="Image 4" style="width:50px; height:50px">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="file" name="image4" style="margin-top:15px;">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        {% if product.product_image5 %}
+                                            <div>{{ product.product_image5.name|truncatechars:13  }}</div>
+                                            <img src="{{ product.product_image5.url }}" alt="Image 5" style="width:50px; height:50px">
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-9">
+                                        <input class="form-control" type="file" name="image5" style="margin-top:15px;">
+                                    </div>
+                                </div>
+                            </div>
+<!------------------------------------------------------------------------------------------------------------------------------------------------->
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+                <div class="col-lg-3">
+                    <div class="card mb-4">
+                        <div class="card-body">
+
+
+
+                              <h5 class="mb-3">Categories</h5>
+
+                            {% for cat in category %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="category" value="{{cat.id}}" id="category-{{cat.id}}" {% if cat.id == product.category.id %}checked{% endif %}>
+                                    <label class="form-check-label" for="category-{{cat.id}}"> {{cat.category_name}} </label>
+                                </div>
+                            {% endfor %}
+
+
+                            <hr>
+
+
+                             <label for="colors">Colors:</label><br>
+                            <input type="radio" name="colors" value="Red"  {% if 'Red' in product.colors %} checked {% endif %}> Red<br>
+                            <input type="radio" name="colors" value="Blue" {% if 'Blue' in product.colors %} checked {% endif %}> Blue<br>
+                            <input type="radio" name="colors" value="Green" {% if 'Green' in product.colors %} checked {% endif %}> Green<br>
+                            <input type="radio" name="colors" value="Yellow" {% if 'Yellow' in product.colors %} checked {% endif %}> Yellow<br>
+                            <input type="radio" name="colors" value="Black" {% if 'Black' in product.colors %} checked {% endif %}> Black<br>
+                            <input type="radio" name="colors" value="Violet" {% if 'Violet' in product.colors %} checked {% endif %}> Violet<br>
+                            <input type="radio" name="colors" value="Orange" {% if 'Orange' in product.colors %} checked {% endif %}> Orange<br>
+                            <input type="radio" name="colors" value="White" {% if 'White' in product.colors %} checked {% endif %}> White<br>
+
+
+                            <hr>
+
+                            <div class="mb-4">
+                                <label class="form-label">Material</label>
+                                <input type="text" value="{{product.material}}" class="form-control" name="material">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Special features</label>
+                                <input type="text"  value="{{product.special_feature}}" class="form-control" name="features">
+                            </div>
+
+
+                            <hr>
+
+
+                            <div class="mb-4">
+                                <label class="form-label">Fit Type</label>
+                                <input type="text"  value="{{product.fit_type}}" class="form-control" name="fit_type">
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">Shoe Width</label>
+                                <input type="text"  value="{{product.shoe_width}}" class="form-control" name="shoe_width">
+                            </div>
+
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+
+
+                </form>
+            </div>
+        </section>
+
+
+
+        <footer class="main-footer font-xs">
+            <div class="row pb-30 pt-15">
+                <div class="col-sm-6">
+                    <script>
+                    document.write(new Date().getFullYear())
+                    </script> ©, Evara - HTML Ecommerce Template .
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end">
+                        All rights reserved
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+{% endblock %}

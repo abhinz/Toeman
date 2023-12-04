@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            margin: 130px auto;
+            max-width: 500px;
+            background-color: #f9f9f9;
+            padding: 70px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border:1px solid #088178;
+        }
+        .header {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .instruction {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .otp-input-row {
+                display: flex;
+                margin-left:8rem;
+                margin-bottom: 20px;
+            }
+        .otp-input {
+            width: 2em;
+            margin: 0 0.5em;
+            padding: 10px;
+
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #088178;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        #timer {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        #resendButton {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #007bff;
+            border: none;
+            background: none;
+            cursor: pointer;
+
+        }
+        a{
+        text-decoration:none;
+        }
+        .container header {
+          height: 65px;
+          width: 65px;
+          background: #4070f4;
+          color: #fff;
+          font-size: 2.5rem;
+          border-radius: 50%;
+        }
+    </style>
+     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container">
+    <div class="header">
+
+        <strong style="color:#088178; font-weight: 600;font-size: 28px;">CONFIRM YOUR ACCOUNT</strong>
+    </div>
+    <div class="instruction">
+        Check the inbox of <span style="color:#0f69a4;">{{email}}</span> and <br>enter the OTP.
+    </div>
+    <form action="{% url 'otp_verification' %}" method="POST">
+        {% csrf_token %}
+        <div class="card-2">
+            <input type="text" class="otp-input" maxlength="1" name="otp1" oninput="moveToNext(this)" required>
+            <input type="text" class="otp-input" maxlength="1" name="otp2" oninput="moveToNext(this)" required>
+            <input type="text" class="otp-input" maxlength="1" name="otp3" oninput="moveToNext(this)" required>
+            <input type="text" class="otp-input" maxlength="1" name="otp4" oninput="moveToNext(this)" required>
+        </div>
+        <br>
+        <button type="submit" class="button">Verify</button>
+        <p id="timer">Time remaining: <span id="countdown">60 seconds</span></p>
+
+
+
+        <div class="card-2">
+            <div class="content d-flex justify-content-center align-items-center">
+                <a id="resnd-button" href="{% url 'resend_otp' %}" class="text-decoration-none resend-button ms-3">Resend</a>
+            </div>
+        </div>
+
+         {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+    </form>
+</div>
+
+
+
+    </div>
+</body>
+<script>
+function moveToNext(currentInput) {
+    const maxLength = parseInt(currentInput.getAttribute('maxlength'));
+    const currentLength = currentInput.value.length;
+
+    if (currentLength === maxLength) {
+        // Move to the next input field
+        const nextInput = currentInput.nextElementSibling;
+
+        if (nextInput) {
+            nextInput.focus();
+        }
+    }
+}
+
+
+ // Set the total time for the countdown in seconds
+    const totalTimeInSeconds = 180;
+    let remainingTime = totalTimeInSeconds;
+
+    function updateTimer() {
+        const timerElement = document.getElementById('countdown');
+        const minutes = Math.floor(remainingTime / 60);
+        const seconds = remainingTime % 60;
+        const formattedTime = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        timerElement.textContent = formattedTime;
+
+        if (remainingTime > 0) {
+            remainingTime -= 1;
+            setTimeout(updateTimer, 1000);
+        } else {
+            // Handle the end of the countdown (e.g., show a message, enable resend button)
+            document.getElementById('resend-button').classList.remove('disabled');
+        }
+    }
+
+    // Call the updateTimer function to start the countdown
+    updateTimer();
+</script>
+
+</html>
+

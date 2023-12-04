@@ -1,0 +1,60 @@
+<div class="col-md-9" >
+                                <div class="tab-content dashboard-content">
+                                    <div class="tab-pane fade active show " id="my_profile" role="tabpanel" aria-labelledby="dashboard-tab">
+                                        <div class="container-fluid">
+                                           <div class="col-md-12 d-flex">
+                                               <div class="col-md-6" style="width:300px;">
+                                                    <img src="{{ profile.profile_image.url }}" alt="Profile Image" style="border-radius: 50%; width:300px;height:300px;"   >
+                                                   <a class="nav-link" id="" href="{% url 'profile_edit' user.id %}" ><i class="fas fa-pen mr-10"></i>Edit profile</a>
+                                               </div>
+
+                                               <div class="col-md-6" style="margin-left:50px;">
+                                                   <div class="row">
+                                                        <div class="form-group col-md-6">
+                                                            <label>First Name</label>
+                                                            {% if  user.first_name %}
+                                                            <div >
+                                                                 <h5 style="margin-top:15px; margin-left:30px;">{{user.first_name}}</h5>
+                                                            </div>
+                                                            {% else %}
+                                                            <div style="width:200px; height:45px;  ">
+                                                                <p style="margin-top:15px; margin-left:30px;">No name</p>
+                                                            </div>
+                                                            {% endif %}
+                                                        </div>
+
+                                                        <div class="form-group col-md-6">
+                                                            <label>Last Name</label>
+                                                               <div class="form-group col-md-6">
+                                                                {% if  user.last_name %}
+                                                                <div style="width:200px; height:40px;  ">
+                                                                     <h5 style="margin-top:15px; margin-left:30px;">{{user.last_name}}</h5>
+                                                                </div>
+                                                                {% else %}
+                                                                <div style="width:200px; height:45px;">
+                                                                    <p style="margin-top:15px; margin-left:30px;">No name</p>
+                                                                </div>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group col-md-12">
+                                                            <label>User Name</label>
+                                                            <div style="width:450px; height:50px;  ">
+                                                                <h5 style="margin-top:15px; margin-left:20px;">{{user.username}}</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label>Email Address </label>
+                                                             <div style="width:450px; height:45px;  ">
+                                                                  <h5 style="margin-top:15px; margin-left:20px;">{{user.email}}</h5>
+                                                             </div>
+                                                        </div>
+                                               </div>
+                                           </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              </div>

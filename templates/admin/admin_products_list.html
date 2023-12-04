@@ -1,0 +1,156 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        .btn.page.active {
+            background-color: #088178;
+            color: #fff;
+        }
+
+        .btn.page {
+            background-color: #fff; /* Set background color to white for non-active pages */
+            color: #28a745; /* Set text color to green */
+            border-color: #28a745; /* Set border color to green */
+        }
+    </style>
+</head>
+        <section class="content-main">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Products List</h2>
+
+                </div>
+                <div>
+                    <a href="{% url 'add_product' %}" class="btn btn-primary btn-sm rounded">Create new</a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col col-check flex-grow-0">
+                        </div>
+                        <div class="col-md-3 col-12 me-auto mb-md-0 mb-3 ">
+                        <form method="get" action="{% url 'admin_products_list' %}" class="d-flex align-items-end">
+                            <select class="form-select me-2" name="category">
+                                {% for category in categories %}
+                                    <option {% if category == selected_category %}selected{% endif %}>{{ category }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit"  class="btn btn-primary" style="padding:12px; background-color:#536764; color:white; "><i class="fa-solid fa-sort"></i></button>
+                        </form>
+                    </div>
+
+
+<!--                       <div class="col-md-2 col-6">-->
+<!--                        <select class="form-select" name="status">-->
+<!--                            <option {% if 'Show all' == selected_status %}selected{% endif %}>Show all</option>-->
+<!--                            <option {% if 'Active' == selected_status %}selected{% endif %}>Active</option>-->
+<!--                            <option {% if 'Disabled' == selected_status %}selected{% endif %}>Disabled</option>-->
+<!--                        </select>-->
+<!--                        <input type="submit" value="Filter" class="btn btn-primary">-->
+<!--                    </div>-->
+
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+
+
+
+
+                    {% for prod in  products %}
+                    <article class="itemlist">
+                        <div class="row align-items-center">
+                            <div class="col col-check flex-grow-0">
+                                <div class="form-check">
+                                    <h6 class="mb-0">{{forloop.counter}}</h6>
+<!--                                    <input class="form-check-input" type="checkbox">-->
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-2 col-sm-4 col-8 flex-grow-1 col-name">
+                                <a class="itemside" href="#">
+                                    <div class="left">
+                                        <img src="{{prod.product_image1.url}}" class="img-sm img-thumbnail" alt="Item">
+                                    </div>
+                                    <div class="info">
+                                        <h6 class="mb-0">{{prod.product_name}}</h6>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-1 col-sm-2 col-4 col-price"> <span>₹{{prod.price}}</span> </div>
+                            <div class="col-lg-2 col-sm-2 col-4 col-status">
+                                {% if not prod.soft_delete %}
+                                <span class="badge rounded-pill alert-success">Active</span>
+                                {% else %}
+                                <span class="badge rounded-pill alert-danger">Disabled</span>
+                                {% endif %}
+
+                            </div>
+                            <div class="col-lg-1 col-sm-2 col-4 col-date">
+                                <span>{{prod.category.category_name}}</span>
+                            </div>
+                            <div class="col-lg-4 col-sm-2 col-4 col-action text-end">
+                                <div class="btn-group">
+
+                                    {% if not prod.soft_delete %}
+                                        <form method="post" action="{% url 'soft_delete_product' prod.id %}" class="d-inline" style="margin:0px 20px;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="product_id" value="{{ prod.id }}">
+                                            <button type="submit" class="btn btn-sm font-sm " style="background-color: #f44336; margin-left:10px;  color:#f1e6e6;">
+                                                <i class="material-icons md-delete_forever"></i> unlist
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <form method="post" action="{% url 'undo_soft_delete_product' prod.id %}" class="d-inline" style="margin:0px 20px;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="product_id" value="{{ prod.id }}">
+                                            <button type="submit" class="btn btn-sm font-sm btn-success rounded" style=" margin-left:10px; padding-left:18px; color:#f1e6e6;">
+                                                <i class="material-icons md-restore"></i> list
+                                            </button>
+                                        </form>
+                                    {% endif %}
+
+                                    <a href="{% url 'edit_products' prod.id %}" class="btn btn-sm font-sm rounded btn-brand ml-5" style="margin:0px 20px;">
+                                        <i class="material-icons md-edit"></i> Edit
+                                    </a>
+
+                                     <a href="{% url 'add_variants' prod.id %}" style="margin:0px 20px; border:solid .5px #088178;" class="p-1">
+                                        <i class="material-icons md-add"></i> variant
+                                      </a>
+
+
+                                </div>
+                            </div >
+
+                        </div>
+                    </article>
+
+                {% endfor %}
+
+                    <div class="mx-auto">
+                            {% if products.paginator.num_pages > 1 %}
+
+                            <hr>
+                            <div class="text-center">
+                                {% for pg in products.paginator.page_range %}
+                                <a href="?page={{pg}}" class="btn btn-sm page {% if products.number == pg %} active {% endif %}">{{pg}}</a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                            <br>
+
+
+
+
+
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+        </section>
+
+    </main>
+{% endblock %}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quantity Increment/Decrement</title>
+    <style>
+        .container {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .quantity {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .btn {
+            padding: 5px 10px;
+            margin: 0 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="btn dec">-</button>
+        <span class="quantity">1</span>
+        <button class="btn inc">+</button>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const quantityElement = document.querySelector('.quantity');
+            const incButton = document.querySelector('.inc');
+            const decButton = document.querySelector('.dec');
+
+            // Initial quantity value
+            let quantityValue = 1;
+            quantityElement.textContent = quantityValue;
+
+            // Increment quantity
+            incButton.addEventListener('click', function() {
+                quantityValue++;
+                quantityElement.textContent = quantityValue;
+            });
+
+            // Decrement quantity (minimum value set to 1)
+            decButton.addEventListener('click', function() {
+                if (quantityValue > 1) {
+                    quantityValue--;
+                    quantityElement.textContent = quantityValue;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

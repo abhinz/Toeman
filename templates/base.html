@@ -1,0 +1,428 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>TOEMAN - eCommerce</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'user/fav.png' %}">
+
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+
+    <style>
+        .logout-button {
+    padding: 0px;
+    color: black;
+    border: none;
+    background-color: white;
+
+}
+    </style>
+</head>
+<body>
+<div>
+    <header class="header-area header-style-3 header-height-2">
+        <div class="header-top header-top-ptb-1 d-none d-lg-block" style="background-color:black; padding:15px;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="header-info">
+                            <ul>
+                                <li><i class="fi-rs-smartphone"></i> <a href="#">+91 9207996054</a></li>
+                                <li><i class="fi-rs-marker"></i><a  href="page-contact.html">Our location</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xl-6 col-lg-4">
+                        <div class="text-center">
+                                <ul>
+                                    <li>Get great devices up to 50% off <a href="shop-grid-right.html">View details</a></li>
+                                </ul>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4">
+                        <div class="header-info header-info-right">
+                            <ul>
+                                {% if user.is_authenticated and not user.is_superuser %}
+                                    <li><i class="fi-rs-user"></i><a href="{% url 'profile' user.id %}"> {{ user.username }}</a></li>
+                                        <form method="post" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <li></i><button type="submit">Logout</button></li>
+                                        </form>
+                                {% else %}
+                                    <li><i class="fi-rs-user"></i><a href="{% url 'register' %}"> Sign Up</a></li>
+                                    <li><i class="fi-rs-user"></i><a href="{% url 'login' %}">Log In </a></li>
+                                {% endif %}
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="header-wrap">
+                    <div class="logo logo-width-1">
+                        <a href="{% url 'home' %}"><img src="{% static 'user/logo2.png' %}" alt="logo" style="width:400px;"></a>
+                    </div>
+
+                    <div class="header-right">
+                        <div>
+                            <form method="get">
+                                <div class="d-flex">
+                                <input type="text" placeholder="Search for items..." style="width:490px;" name="search" >
+                                <input type="submit" value="Search" style="width:75px; background-color:#088178; color:white" class="">
+                                 </div>
+                            </form>
+                        </div>
+
+                        <div class="header-action-right">
+                            <div class="header-action-2">
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'view_wishlist' %}">
+                                        <img class="svgInject" alt="Evara" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}">
+                                        <span class="pro-count blue">{{wishlist_item_count}}</span>
+                                    </a>
+                                </div>
+                                <div class="header-action-icon-2">
+                                    <a class="mini-cart-icon" href="{% url 'cart' %}">
+                                        <img alt="Evara" src="{% static 'assets/imgs/theme/icons/icon-cart.svg' %}">
+                                        <span class="pro-count blue">{{cart_count}}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="mobile-header-active mobile-header-wrapper-style" >
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-top">
+                <div class="mobile-header-logo">
+                    <a href="index.html"><img src="{% static 'user/logo2.png' %}" alt="ds"></a>
+                </div>
+                <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                    <button class="close-style search-close">
+                        <i class="icon-top"></i>
+                        <i class="icon-bottom"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-header-content-area">
+                <div class="mobile-search search-style-3 mobile-header-border">
+                    <form action="#">
+                        <input type="text" placeholder="Search for items…">
+                        <button type="submit"><i class="fi-rs-search"></i></button>
+                    </form>
+                </div>
+
+                <div class="mobile-menu-wrap mobile-header-border">
+                    <div class="main-categori-wrap mobile-header-border">
+                        <a class="categori-button-active-2" href="#">
+                            <span class="fi-rs-apps"></span> Browse Categories
+                        </a>
+                    </div>
+                    <!-- mobile menu start -->
+                    <nav>
+                        <ul class="mobile-menu">
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="{% url 'home' %}">Home</a></li>
+
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="{% url 'product_list' %}">shop</a></li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="{% url 'about' %}">About</a></li>
+                            <li class="menu-item-has-children"><span class="menu-expand"></span><a href="{% url 'contact' %}">Contact</a></li>
+
+                            {% if user.is_authenticated and not user.is_superuser %}
+                                <form method="post" action="{% url 'logout' %}">
+                                    {% csrf_token %}
+                                    <li><button type="submit" class="btn btn-danger">Logout</button></li>
+                                </form>
+                            {% else %}
+                                <a href="{% url 'login' %}">Log In / Sign Up </a>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+                    <!-- mobile menu end -->
+                </div>
+                <div class="mobile-header-info-wrap mobile-header-border">
+                    <div class="single-mobile-header-info mt-30">
+                        <a  href="page-contact.html"> Our location </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="#">+91 9207996045 </a>
+                    </div>
+                </div>
+                <div class="mobile-social-icon">
+                    <h5 class="mb-15 text-grey-4">Follow Us</h5>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-facebook.svg' %}" alt=""></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-twitter.svg' %}" alt=""></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-instagram.svg' %}" alt=""></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest.svg' %}" alt=""></a>
+                    <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-youtube.svg' %}" alt=""></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        <section>
+            <div class="header-bottom header-bottom-bg-color sticky-bar">
+            <div class="container">
+                <div class="header-wrap header-space-between position-relative  main-nav">
+                    <div class="logo logo-width-1 d-block d-lg-none">
+                        <a href="{% url 'home' %}"><img src="{% static 'user/logo2.png' %}" alt="logo"></a>
+                    </div>
+
+
+                    <div class="header-nav d-none d-lg-flex">
+                        <div class="main-categori-wrap d-none d-lg-block">
+                            <a class="categori-button-active" href="{% url 'home' %}">
+                                <span class="fi-rs-apps"></span> Browse Categories
+                            </a>
+                        </div>
+                        <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block">
+                            <nav>
+                                <ul>
+                                    <li class="menu-item-has-children"><span class="menu-expand"></span><a href="{% url 'home' %}">Home</a></li>
+                                    <li><a href="{% url 'product_list' %}">Products </a></li>
+                                    <li><a href="{% url 'about' %}">About</a></li>
+                                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="hotline d-none d-lg-block">
+                        <p><i class="fi-rs-headset"></i><span>Hotline</span>+91 9207996054 </p>
+                    </div>
+
+
+                    <div class="header-action-icon-2">
+
+                    </div>
+
+
+                    <div class="header-action-right d-block d-lg-none">
+                        <div class="header-action-2">
+
+
+
+                            {% if user.is_authenticated and not user.is_superuser %}
+                            <div class="header-action-icon-2">
+                                <a href="{% url 'profile' user.id %}">
+                                    <span class="fi-rs-user text-dark"></span>
+                                </a>
+                            </div>
+                            {% else %}
+                            <div class="header-action-icon-2">
+                                <a href="{% url 'login' %}">
+                                    <span class="fi-rs-user text-dark"></span>
+                                </a>
+                            </div>
+                            {% endif %}
+
+
+
+                            <div class="header-action-icon-2">
+                                <a href="{% url 'view_wishlist' %}">
+                                    <img alt="Evara" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}">
+                                    <span class="pro-count white">{{wishlist_item_count}}</span>
+                                </a>
+                            </div>
+
+
+
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="{% url 'cart' %}">
+                                    <img alt="Evara" src="{% static 'assets/imgs/theme/icons/icon-cart.svg' %}">
+                                    <span class="pro-count white">{{cart_count}}</span>
+                                </a>
+                            </div>
+
+
+                            <div class="header-action-icon-2 d-block d-lg-none">
+                                <div class="burger-icon burger-icon-white">
+                                    <span class="burger-icon-top"></span>
+                                    <span class="burger-icon-mid"></span>
+                                    <span class="burger-icon-bottom"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        </section>
+
+
+{% block content %}
+
+{% endblock %}
+
+
+
+
+
+
+<div href="{% url 'home' %}" class="divider center_icon mt-50 mb-50"><i class="fi-rs-fingerprint"></i></div>
+<footer class="main">
+        <section class="newsletter p-30 text-white wow fadeIn animated" style="display: none;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 mb-md-3 mb-lg-0">
+                        <div class="row align-items-center">
+                            <div class="col flex-horizontal-center">
+                                <img class="icon-email" src="{% static 'assets/imgs/theme/icons/icon-email.svg' %}" alt="">
+                                <h4 class="font-size-20 mb-0 ml-3">Sign up to Newsletter</h4>
+                            </div>
+                            <div class="col my-4 my-md-0 des">
+                                <h5 class="font-size-15 ml-4 mb-0">...and receive <strong>$25 coupon for first shopping.</strong></h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <!-- Subscribe Form -->
+                        <form class="form-subcriber d-flex wow fadeIn animated">
+                            <input type="email" class="form-control bg-white font-small" placeholder="Enter your email">
+                            <button class="btn bg-dark text-white" type="submit">Subscribe</button>
+                        </form>
+                        <!-- End Subscribe Form -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-padding footer-mid">
+            <div class="container pt-15 pb-20">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="widget-about font-md mb-md-5 mb-lg-0">
+                            <div class="logo logo-width-1 wow fadeIn animated">
+                                <a href="index.html"><img src="{% static 'user/logo2.png' %}" alt="logo"></a>
+                            </div>
+                            <h5 class="mt-20 mb-10 fw-600 text-grey-4 wow fadeIn animated">Contact</h5>
+                            <p class="wow fadeIn animated">
+                                <strong>Address: </strong>Payyannur, Kannur
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Phone: </strong>+91 9207996045
+                            </p>
+                            <p class="wow fadeIn animated">
+                                <strong>Hours: </strong> 24 hrs , Mon - Sun
+                            </p>
+                            <h5 class="mb-10 mt-30 fw-600 text-grey-4 wow fadeIn animated">Follow Us</h5>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0">
+                                <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-facebook.svg' %}" alt=""></a>
+                                <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-twitter.svg' %}" alt=""></a>
+                                <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-instagram.svg' %}" alt=""></a>
+                                <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest.svg' %}" alt=""></a>
+                                <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-youtube.svg' %}" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">About</h5>
+                        <ul class="footer-list wow fadeIn animated mb-sm-5 mb-md-0">
+                            <li><a href="{% url 'about' %}">About Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2  col-md-3">
+                        <h5 class="widget-title wow fadeIn animated">My Account</h5>
+                        <ul class="footer-list wow fadeIn animated">
+                            <li><a href="{% url 'register' %}">Sign In</a></li>
+                            <li><a href="{% url 'cart' %}">View Cart</a></li>
+                            <li><a href="{% url 'view_wishlist' %}">My Wishlist</a></li>
+                            <li><a href="{% url 'profile_orders' %}">Order</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5 class="widget-title wow fadeIn animated">Install App</h5>
+                        <div class="row">
+                            <div class="col-md-8 col-lg-12">
+                                <p class="wow fadeIn animated">From App Store or Google Play</p>
+                                <div class="download-app wow fadeIn animated">
+                                    <a href="#" class="hover-up mb-sm-4 mb-lg-0"><img class="active" src="{% static 'assets/imgs/theme/app-store.jpg' %}" alt=""></a>
+                                    <a href="#" class="hover-up"><img src="{% static 'assets/imgs/theme/google-play.jpg' %}" alt=""></a>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-12 mt-md-3 mt-lg-0">
+                                <p class="mb-20 wow fadeIn animated">Secured Payment Gateways</p>
+                                <img class="wow fadeIn animated" src="{% static 'assets/imgs/theme/payment-method.png' %}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container pb-20 wow fadeIn animated">
+            <div class="row">
+                <div class="col-12 mb-20">
+                    <div class="footer-bottom"></div>
+                </div>
+                <div class="col-lg-6">
+                    <p class="float-md-left font-sm text-muted mb-0">&copy; 2023, <strong class="text-brand">Toeman</strong> - Your Fashion start here </p>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+<!--     Preloader Start-->
+<!--    <div id="preloader-active">-->
+<!--        <div class="preloader d-flex align-items-center justify-content-center">-->
+<!--            <div class="preloader-inner position-relative">-->
+<!--                <div class="text-center">-->
+<!--                    <h5 class="mb-5">Now Loading</h5>-->
+<!--                    <div class="loader">-->
+<!--                        <div class="bar bar1"></div>-->
+<!--                        <div class="bar bar2"></div>-->
+<!--                        <div class="bar bar3"></div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--     Vendor JS-->
+
+    <script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/slick.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.syotimer.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/wow.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery-ui.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/magnific-popup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/waypoints.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/counterup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/images-loaded.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/isotope.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/scrollup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.vticker-min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.theia.sticky.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.elevatezoom.js' %}"></script>
+    <!-- Template  JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/shop.js' %}"></script>
+</body>
+</html>

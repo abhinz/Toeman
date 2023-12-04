@@ -1,0 +1,202 @@
+﻿{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <style>
+        .btn.page.active {
+            background-color: #088178;
+            color: #fff;
+        }
+
+        .btn.page {
+            background-color: #fff; /* Set background color to white for non-active pages */
+            color: #28a745; /* Set text color to green */
+            border-color: #28a745; /* Set border color to green */
+        }
+
+
+
+    </style>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'home' %}" rel="nofollow">Home</a>
+                    <span></span> Shop
+                    <span></span> Filters
+                </div>
+            </div>
+        </div>
+        <section class="mt-50 mb-50">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a class="shop-filter-toogle" href="#">
+                            <span class="fi-rs-filter mr-5"></span>
+                            Filters
+                            <i class="fi-rs-angle-small-down angle-down"></i>
+                            <i class="fi-rs-angle-small-up angle-up"></i>
+                        </a>
+
+                        <div class="shop-product-fillter-header">
+                            <form method="GET" action="{% url 'product_list' %}">
+                            <div class="row">
+
+
+                            <div class="col-lg-3 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
+                                <h5 class="mb-20">Categories</h5>
+                                <ul class="categor-list">
+                                    {% for i in category %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="category" value="{{ i.id }}" id="category_{{ i.id }}"
+                                                   {% if i.id|stringformat:"s" in selected_categories %}checked{% endif %}>
+                                            <label class="form-check-label" for="category_{{ i.id }}">{{ i.category_name }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+
+                               <div class="col-lg-3 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
+                                    <h5 class="mb-20">Brands</h5>
+                                    <ul class="categor-list">
+                                        {% for brand in unique_brands %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="brand" value="{{ brand.brand_name }}" id="brand_{{ brand.id }}"
+                                                       {% if brand.brand_name in selected_brands %}checked{% endif %}>
+                                                <label class="form-check-label" for="brand_{{ brand.id }}">{{ brand.brand_name }}</label>
+                                            </div>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+
+
+                                <div class="col-lg-3 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
+                                    <h5 class="mb-20">Size</h5>
+                                    <ul class="categor-list">
+                                        {% for size in unique_sizes %}
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="size" value="{{ size }}" id="size{{ forloop.counter }}"
+                                                       {% if size in selected_sizes %}checked{% endif %}>
+                                                <label class="form-check-label" for="size{{ forloop.counter }}">{{ size }}</label>
+                                            </div>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
+                                <h5 class="mb-20">Colors</h5>
+                                <ul class="categor-list">
+                                    {% for color in unique_colors %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="color" value="{{ color }}" id="color_{{ color }}"
+                                                   {% if color in selected_colors %}checked{% endif %}>
+                                            <label class="form-check-label" for="color_{{ color }}">{{ color }}</label>
+                                        </div>
+                                    {% endfor %}
+                                </ul>
+                                </div>
+                                <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5"></div>
+                                <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5"></div>
+                                <div class="col-lg-2 col-md-4 mb-lg-0 mb-md-5 mb-sm-5"></div>
+                                <div class="col-lg-4 col-md-4 mb-lg-0 mb-md-5 mb-sm-5"></div>
+                                <div class="col-lg-1 col-md-4 mb-lg-0 mb-md-5 mb-sm-5">
+
+                                </div>
+                                <div class="col-lg-1 col-md-4 mb-lg-0 mb-md-5 mb-sm-5 d-flex" >
+                                    <a href="{% url 'product_list' %}" class="btn btn-secondary"  style=" padding:5px; margin-right:10px;">Clear </a>
+                                    <button type="submit" style=" padding:4px;" class="text-left">Apply  </button>
+                                </div>
+
+                            </div>
+                            </form>
+                        </div>
+
+
+                    </div>
+                    <div class="col-lg-12">
+
+
+
+                        <div class="row product-grid-3">
+
+
+                            {% if query %}
+                                <p>Search results for "{{ query }}":</p>
+                            {% endif %}
+
+
+                            {% for i in products.object_list %}
+                            <div class="col-lg-3 col-md-4" >
+                                <div class="product-cart-wrap mb-30" style="height: 470px;">
+                                    <div class="product-img-action-wrap">
+                                        <div class="product-img product-img-zoom">
+                                            <a href="shop-product-right.html">
+                                                <a href="{% url 'product_detail' i.id %}">    <img class="default-img" src="{{ i.product_image1.url }}" alt="" ></a>
+                                                <a href="{% url 'product_detail' i.id %}">    <img class="hover-img" src="{{ i.product_image2.url }}" alt="" ></a>
+                                            </a>
+                                        </div>
+                                        <div class="product-action-1">
+                                            <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                            <i class="fi-rs-search"></i></a>
+                                            <a aria-label="Add To Wishlist" class="action-btn hover-up" href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                            <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                        </div>
+                                        <div class="product-badges product-badges-position product-badges-mrg">
+                                            {% if has_offer %}
+                                            <span class="hot">in Offer</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="product-content-wrap">
+                                        <div class="product-category">
+                                            <a href="shop-grid-right.html">{{i.category.category_name}}</a>
+                                        </div>
+                                        <h2><a href="{% url 'product_detail' i.id %}">{{i.product_name}}</a></h2>
+                                        <div class="rating-result" title="90%">
+                                            <span>
+                                                <span>90%</span>
+                                            </span>
+                                        </div>
+                                        <div class="product-price">
+                                            <span>₹{{i.price}} </span>
+                                            <span class="old-price">245.8</span>
+                                        </div>
+                                        <div class="product-action-1 show">
+                                            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+
+                        <div class="pagination ">
+                            <span class="step-links">
+                                {% if products.has_previous %}
+                                    <a href="?page=1">&laquo; first</a>
+                                    <a href="?page={{ products.previous_page_number }}" style="margin-left:20px;">previous</a>
+                                {% endif %}
+
+                                <span class="current">
+                                    Page {{ products.number }} of {{ products.paginator.num_pages }}.
+                                </span>
+
+                                {% if products.has_next %}
+                                    <a href="?page={{ products.next_page_number }}">next</a>
+                                    <a href="?page={{ products.paginator.num_pages }}" style="margin-left:20px;">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                            <br>
+                    </div>
+
+
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock %}
