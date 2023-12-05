@@ -1007,6 +1007,10 @@ def add_variants(request, p_id):
             messages.error(request, "Size and Quantity are required")
             return redirect('add_variants', p_id=p_id)
 
+        if ProductAttribute.objects.filter(product=product,size=size).exists():
+            messages.error(request, "Already exists")
+            return redirect('add_variants', p_id=p_id)
+
         try:
             size_int = int(size)  # Convert 'size' to an integer
             quantity_int = int(quantity)
@@ -1059,6 +1063,10 @@ def edit_variants(request,p_id,v_id):
         if not size or not quantity:
             messages.error(request, "Size and Quantity are required")
             return redirect('edit_variants', p_id=p_id,v_id=v_id)
+
+        if ProductAttribute.objects.filter(product=product,size=size).exists():
+            messages.error(request, "Already exists")
+            return redirect('add_variants', p_id=p_id)
 
         try:
             quantity = int(quantity)
