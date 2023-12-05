@@ -1,4 +1,4 @@
-
+.
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,8 +30,8 @@
         }
         .otp-input-row {
                 display: flex;
-                margin-left:8rem;
-                margin-bottom: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
             }
         .otp-input {
             width: 2em;
@@ -92,12 +92,12 @@
     </div>
     <form action="{% url 'otp_verification' %}" method="POST">
         {% csrf_token %}
-        <div class="card-2">
-            <input type="text" class="otp-input" maxlength="1" name="otp1" oninput="moveToNext(this)" required>
-            <input type="text" class="otp-input" maxlength="1" name="otp2" oninput="moveToNext(this)" required>
-            <input type="text" class="otp-input" maxlength="1" name="otp3" oninput="moveToNext(this)" required>
-            <input type="text" class="otp-input" maxlength="1" name="otp4" oninput="moveToNext(this)" required>
-        </div>
+        <div class="otp-input-row">
+                <input type="text" class="otp-input" maxlength="1" name="otp1" oninput="moveToNext(this)" required>
+                <input type="text" class="otp-input" maxlength="1" name="otp2" oninput="moveToNext(this)" required>
+                <input type="text" class="otp-input" maxlength="1" name="otp3" oninput="moveToNext(this)" required>
+                <input type="text" class="otp-input" maxlength="1" name="otp4" oninput="moveToNext(this)" required>
+            </div>
         <br>
         <button type="submit" class="button">Verify</button>
         <p id="timer">Time remaining: <span id="countdown">60 seconds</span></p>
@@ -119,9 +119,6 @@
     </form>
 </div>
 
-
-
-    </div>
 </body>
 <script>
 function moveToNext(currentInput) {
