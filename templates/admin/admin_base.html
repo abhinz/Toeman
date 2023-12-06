@@ -25,7 +25,7 @@
     <aside class="navbar-aside" id="offcanvas_aside">
         <div class="aside-top">
             <a href="{% url 'admin_home' %}" class="brand-wrap" style="width:200px;">
-                <img src="{% static 'user/logo2.png ' %}" class="logo" alt="Evara Dashboard" >
+                <img src="{% static 'user/logo2.png' %}" class="logo" alt="Evara Dashboard" >
             </a>
             <div>
                 <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
@@ -183,7 +183,8 @@
                         {% endif %}
 
                         <li class="dropdown nav-item">
-                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="{% static 'admin/assets/imgs/people/a.jpg ' %}" alt="User"></a>
+                            <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+                                <img class="img-xs rounded-circle" src="{% static 'admin/assets/imgs/people/a.jpg' %}" alt="User"></a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
                                 <a class="dropdown-item text-danger" href="{% url 'admin_logout' %}"><i class="material-icons md-exit_to_app"></i>Logout</a>
                             </div>
