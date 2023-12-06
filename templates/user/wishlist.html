@@ -213,24 +213,34 @@
                                             </p>
                                         </td>
                                         <td class="price" data-title="Price"><span>{{i.price}} </span></td>
-                                        {% if i.quantity > 1 %}
-                                        <td class="text-center" data-title="Stock">
-                                            <span class="color3 font-weight-bold">In Stock</span>
-                                        </td>
-                                        <td class="text-right" data-title="Cart">
-                                            <a href="{% url 'add_cart' i.id %}">
-                                            <button class="btn btn-sm"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
-                                             </a>
-                                        </td>
-                                        {% else %}
-                                        <td class="text-center" data-title="Stock">
-                                            <span class="text-danger font-weight-bold">Out of stock</span>
-                                        </td>
-                                        <td class="text-right" data-title="Cart">
-                                           <button class="btn btn-sm btn-secondary"><i class="fi-rs-headset mr-5"></i>Contact Us</button>
-                                        </td>
-                                        {% endif %}
+
+
+
+
+                                            {% if i.productattribute_set.first.quantity > 0 %}
+                                            <td class="text-center" data-title="Stock">
+                                                        <span class="color3 font-weight-bold">In Stock</span>
+                                                    </td>
+
+                                            <td class="text-right" data-title="Cart">
+                                                <form action="{% url 'add_to_cart_short' i.id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="size_id" value="{{ i.productattribute_set.first.id }}">
+                                                    <button class="btn btn-sm" type="submit"><i class="fi-rs-shopping-bag mr-5"></i>Add to cart</button>
+                                                </form>
+                                            </td>
+                                            {% else %}
+                                            <td class="text-center" data-title="Stock">
+                                                <span class="text-danger font-weight-bold">Out of stock</span>
+                                            </td>
+                                            <td>
+                                               <a href="{% url 'product_detail' i.id %}" class="btn btn-sm btn-secondary"><i class="fi-rs-headset mr-5"></i>View Product</a>
+                                            </td>
+                                            {% endif %}
+
                                         <td class="action" data-title="Remove"><a href="{% url 'remove_from_wishlist' i.id %}"><i class="fi-rs-trash"></i></a></td>
+
+
                                     </tr>
 
                                 {% endfor %}

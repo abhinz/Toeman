@@ -198,6 +198,40 @@ def remove_cart_item(request, product_id):
 
     return redirect('cart')
 
+def add_to_cart_short(request, product_id):
+    product = get_object_or_404(Products, id=product_id)
+    default_variant = product.productattribute_set.first()
+
+    if default_variant:
+        size_id = default_variant.id
+
+        if request.user.is_authenticated:
+            try:
+                cart = Cart.objects.get(cart_id=_cart_id(request))
+            except Cart.DoesNotExist:
+                cart = Cart.objects.create(cart_id=_cart_id(request), user=request.user)
+
+            try:
+                cart_item = CartItem.objects.get(product=product, user=request.user, size=size_id, variant=default_variant)
+                if cart_item:
+                    # Increment quantity if the cart item already exists
+                    if cart_item.quantity + 1 <= default_variant.quantity:
+                        cart_item.quantity += 1
+                        cart_item.save()
+            except CartItem.DoesNotExist:
+                # Create a new cart item if it doesn't exist
+                CartItem.objects.create(
+                    product=product,
+                    quantity=1,
+                    cart=cart,
+                    user=request.user,
+                    size=size_id,
+                    variant=default_variant
+                )
+
+            return redirect('cart')
+
+    return redirect('wishlist')
 
 
 
