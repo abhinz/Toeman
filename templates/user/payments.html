@@ -169,34 +169,27 @@
               <div class="table-responsive order_table text-center">
                 <table class="table bg-light">
                   <thead>
-                    <tr>
-                      <th colspan="2">Product</th>
-                      <th>Total</th>
-                    </tr>
+
                   </thead>
                   <tbody>
                     {% for cart_item in cart_items %}
+                        <tr>
+                            <th>Product</th>
+                            <td class="image product-thumbnail"><img src="{{ cart_item.product.product_image1.url }}" alt="added_image"></td>
+                        </tr>
+
                     <tr>
-                      <td class="image product-thumbnail">
-                        <img
-                          src="{{ cart_item.product.product_image1.url }}"
-                          alt="added_image"
-                        />
-                      </td>
-                      <td>
-                        <h5>
-                          <a href="shop-product-full.html"
-                            >{{ cart_item.product.product_name}}</a
-                          >
-                        </h5>
-                        <span class="product-qty"
-                          >x {{ cart_item.quantity}}</span
-                        >
-                      </td>
-                      <td>₹{{cart_item.sub_total}}</td>
+                        <th>name</th>
+                        <td>
+                            <h5><a href="shop-product-full.html">{{ cart_item.product.product_name}}</a></h5> <span class="product-qty">x {{ cart_item.quantity}}</span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Total</th>
+                        <td>₹{{cart_item.sub_total|floatformat:2 }}</td>
                     </tr>
                     {% endfor %}
-
                     <tr>
                       <th>SubTotal</th>
                       <td class="product-subtotal" colspan="2">
