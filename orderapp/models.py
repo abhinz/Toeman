@@ -38,7 +38,7 @@ class Order(models.Model):
 class Payment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     payment_method = models.CharField(max_length=100,default='Cancelled')
-    amount_paid = models.CharField(max_length=100)
+    amount_paid = models.FloatField(default=0)
     status = models.CharField(max_length=100)
     discount = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
