@@ -156,7 +156,7 @@ def place_order(request, total=0, quantity=0):
             address = Address.objects.get(id=address_id)
         except Address.DoesNotExist:
             messages.warning(request, "Select a address.")
-            return redirect('cart')
+            return redirect('checkout')
 
         data = Order()
         data.user = current_user
