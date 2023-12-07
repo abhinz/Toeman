@@ -231,7 +231,7 @@ def add_to_cart_short(request, product_id):
 
             return redirect('cart')
 
-    return redirect('wishlist')
+    return redirect('view_wishlist')
 
 
 
