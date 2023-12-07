@@ -285,7 +285,8 @@ color:#cc9000;
                                             <span class="old-price">₹{{i.old_price}}</span>
                                         </div>
                                         <div class="product-action-1 show">
-                                            <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            <input type="hidden" name="size_id" value="{{ i.productattribute_set.first.id }}">
+                                            <a aria-label="Add To Cart" href="{% url 'add_to_cart_short' i.id %}" class="action-btn hover-up" type="submit"><i class="fi-rs-shopping-bag mr-5"></i></a>
                                         </div>
                                     </div>
                                 </div>
